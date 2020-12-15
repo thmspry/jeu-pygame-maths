@@ -9,8 +9,13 @@ class GameConfig:
     force_left_player = -20
     force_right_player = -force_left_player
     DT = 0.5
+    GRAVITY = 9.81
+    FORCEJUMP = -100
     Background_IMG = pygame.image.load('sprites/background.png')
     STANDING_IMG = [pygame.image.load('sprites/walk/stand1.png')]
+    JUMP_RIGHT_IMG = [pygame.image.load('sprites/jump.png')]
+    JUMP_RIGHT_MASK = [pygame.mask.from_surface(JUMP_RIGHT_IMG[0])]
+    JUMP_LEFT_IMG = pygame.transform.flip(pygame.image.load('sprites/jump.png'), True, False)
     WALK_RIGHT_IMG = [
         pygame.image.load('sprites/walk/walk1.png'),
         pygame.image.load('sprites/walk/walk2.png'),

@@ -18,6 +18,8 @@ def get_next_move():
         next_move.right = True
     if keys[pygame.K_LEFT]:
         next_move.left = True
+    if keys[pygame.K_UP]:
+        next_move.up = True
     return next_move
 
 
