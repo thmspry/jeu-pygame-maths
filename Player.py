@@ -17,6 +17,7 @@ class Player(pygame.sprite.Sprite):
                                 GameConfig.Player_H)
         self.vx = 0
         self.vy = 0
+        self.life = 100
         self.sprite_count = 0
         self.direction = Player.NONE
         self.image = Player.IMAGES[self.direction][self.sprite_count // GameConfig.NB_FRAMES_PER_SPRITE_PLAYER]
@@ -31,7 +32,6 @@ class Player(pygame.sprite.Sprite):
                        Player.LEFT: GameConfig.WALK_LEFT_IMG, Player.UPR: GameConfig.JUMP_RIGHT_MASK}
 
     def draw(self, window):
-        print(self.direction)
         window.blit(self.image, self.rect.topleft)
 
     def shoot(self):
@@ -42,6 +42,16 @@ class Player(pygame.sprite.Sprite):
             return True
         else:
             return False
+
+    def touch_border(self):
+        if self.rect.right >= GameConfig.windowW or self.rect.left == 0:
+            return True
+
+        else:
+            return False
+
+    def touch_enemy(self, enemy):
+        return self.rect.colliderect(enemy.rect)
 
     def advance_state(self, next_move):
         fx = 0
@@ -57,19 +67,26 @@ class Player(pygame.sprite.Sprite):
             self.direction = Player.UPR
         else:
             self.direction = Player.NONE
+
+
         self.sprite_count += 1
-        print(type(Player.IMAGES[self.direction]))
         if self.sprite_count >= GameConfig.NB_FRAMES_PER_SPRITE_PLAYER * len(Player.IMAGES[self.direction]):
             self.sprite_count = 0
-        self.image = Player.IMAGES[self.direction][
-            self.sprite_count // GameConfig.NB_FRAMES_PER_SPRITE_PLAYER
-            ]
+        if not self.touch_border():
+            self.image = Player.IMAGES[self.direction][
+                self.sprite_count // GameConfig.NB_FRAMES_PER_SPRITE_PLAYER
+                ]
+        else :
+            self.image = Player.IMAGES[Player.NONE][0]
+
         self.mask = Player.MASK[self.direction][self.sprite_count // GameConfig.NB_FRAMES_PER_SPRITE_PLAYER]
+
         self.vx = fx * GameConfig.DT
         if self.on_ground():
             self.vy = fy*GameConfig.DT
         else:
             self.vy = self.vy + GameConfig.GRAVITY*GameConfig.DT
+
         x, y = self.rect.topleft
         vy_max = (GameConfig.Y_Platform-GameConfig.Player_H-y)/GameConfig.DT
         self.vy = min(self.vy, vy_max)

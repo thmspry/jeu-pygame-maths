@@ -10,6 +10,7 @@ class Move:
         self.right = False
         self.up = False
         self.down = False
+        self.attack = False
 
 def get_next_move():
     next_move = Move()
@@ -20,6 +21,8 @@ def get_next_move():
         next_move.left = True
     if keys[pygame.K_UP]:
         next_move.up = True
+    if keys[pygame.K_SPACE]:
+        next_move.attack = True
     return next_move
 
 
@@ -39,6 +42,7 @@ def Gameloop(window):
 
 pygame.init()
 Player.init_sprites()
+Enemy.init_sprites()
 window = pygame.display.set_mode((GameConfig.windowW, GameConfig.windowH))
 Gameloop(window)
 pygame.quit()
