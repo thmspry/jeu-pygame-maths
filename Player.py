@@ -1,4 +1,5 @@
 import pygame
+import random
 from config import *
 
 
@@ -9,6 +10,7 @@ class Player(pygame.sprite.Sprite):
     RIGHT = 1
     UPL = 2
     UPR = 3
+    ATTACK = 4
     DOWN = -2
     NONE = 0
 
@@ -17,11 +19,12 @@ class Player(pygame.sprite.Sprite):
                                 GameConfig.Player_H)
         self.vx = 0
         self.vy = 0
-        self.life = 200
+        self.life = 100
         self.sprite_count = 0
         self.direction = Player.NONE
         self.image = Player.IMAGES[self.direction][self.sprite_count // GameConfig.NB_FRAMES_PER_SPRITE_PLAYER]
         self.mask = Player.MASK[self.direction][self.sprite_count // GameConfig.NB_FRAMES_PER_SPRITE_PLAYER]
+        self.tmp = 0
 
     @staticmethod
     def init_sprites():
@@ -34,7 +37,13 @@ class Player(pygame.sprite.Sprite):
     def draw(self, window):
         window.blit(self.image, self.rect.topleft)
         pygame.draw.rect(window, GameConfig.GREY_BAR, pygame.Rect(175, 25, 200, 30))
-        pygame.draw.rect(window, GameConfig.RED_LIFE, pygame.Rect(175, 25, self.life, 30))
+        if self.life >= 0 :
+            pygame.draw.rect(window, GameConfig.RED_LIFE, pygame.Rect(175, 25, self.life*2, 30))
+        else :
+            pygame.draw.rect(window, GameConfig.RED_LIFE, pygame.Rect(175, 25, 0, 30))
+
+        img = GameConfig.FONT20.render("Life : " + str(self.life), True, GameConfig.WHITE)
+        window.blit(img, (220, 57))
 
 
     def shoot(self):
@@ -47,11 +56,7 @@ class Player(pygame.sprite.Sprite):
             return False
 
     def touch_border(self):
-        if self.rect.right >= GameConfig.windowW or self.rect.left == 0:
-            return True
-
-        else:
-            return False
+        return self.rect.right >= GameConfig.windowW or self.rect.left == 0
 
     def touch_enemy(self, enemy):
         return self.rect.colliderect(enemy.rect)
@@ -72,8 +77,14 @@ class Player(pygame.sprite.Sprite):
             self.direction = Player.NONE
 
         if self.touch_enemy(enemy):
-            self.life = self.life - 1
+            if self.tmp == 10:
+                damage = random.randint(5,30)
+                self.life = self.life - damage
+                self.tmp = 0
+            self.tmp +=1
 
+        if self.life < 0:
+            self.life=0
 
         self.sprite_count += 1
         if self.sprite_count >= GameConfig.NB_FRAMES_PER_SPRITE_PLAYER * len(Player.IMAGES[self.direction]):
@@ -100,5 +111,4 @@ class Player(pygame.sprite.Sprite):
         vx_max = (GameConfig.windowW-GameConfig.Player_W-x)/GameConfig.DT
         self.vx = min(self.vx, vx_max)
         self.vx = max(self.vx, vx_min)
-        print("Vie : ", self.life)
         self.rect = self.rect.move(self.vx * GameConfig.DT, self.vy * GameConfig.DT)

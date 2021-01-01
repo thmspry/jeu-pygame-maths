@@ -37,11 +37,11 @@ def Gameloop(window):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or gameState.is_over():
                 quitting = True
-        print(gameState.is_over())
         pygame.display.update()
 
 
 pygame.init()
+GameConfig.init()
 Player.init_sprites()
 Enemy.init_sprites()
 window = pygame.display.set_mode((GameConfig.windowW, GameConfig.windowH))

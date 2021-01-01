@@ -19,6 +19,6 @@ class GameState:
 
     def advance_state(self, next_move):
         self.player.advance_state(next_move, self.enemy)
-        self.enemy.advance_state(self.player.rect.left, self.player.rect.top)
+        self.enemy.advance_state(next_move, self.player)
 
 

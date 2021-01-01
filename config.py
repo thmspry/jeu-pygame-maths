@@ -1,6 +1,9 @@
 import pygame
 
 class GameConfig:
+
+    def init():
+        GameConfig.FONT20 = pygame.font.Font('sprites/Axis_Extrabold.otf', 20)
     windowH = 720
     windowW = 1080
     Y_Platform = 600
@@ -30,6 +33,9 @@ class GameConfig:
 
     RED_LIFE = (199, 50, 50)
     GREY_BAR = (110, 110, 110)
+    WHITE = (255,255,255)
+
+
 
     WALK_RIGHT_IMG = [
         pygame.image.load('sprites/walk/walk1.png'),
