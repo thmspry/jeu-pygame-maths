@@ -17,7 +17,7 @@ class Player(pygame.sprite.Sprite):
                                 GameConfig.Player_H)
         self.vx = 0
         self.vy = 0
-        self.life = 100
+        self.life = 200
         self.sprite_count = 0
         self.direction = Player.NONE
         self.image = Player.IMAGES[self.direction][self.sprite_count // GameConfig.NB_FRAMES_PER_SPRITE_PLAYER]
@@ -33,6 +33,9 @@ class Player(pygame.sprite.Sprite):
 
     def draw(self, window):
         window.blit(self.image, self.rect.topleft)
+        pygame.draw.rect(window, GameConfig.GREY_BAR, pygame.Rect(175, 25, 200, 30))
+        pygame.draw.rect(window, GameConfig.RED_LIFE, pygame.Rect(175, 25, self.life, 30))
+
 
     def shoot(self):
         pass
@@ -53,7 +56,7 @@ class Player(pygame.sprite.Sprite):
     def touch_enemy(self, enemy):
         return self.rect.colliderect(enemy.rect)
 
-    def advance_state(self, next_move):
+    def advance_state(self, next_move, enemy):
         fx = 0
         fy = 0
         if next_move.left:
@@ -67,6 +70,9 @@ class Player(pygame.sprite.Sprite):
             self.direction = Player.UPR
         else:
             self.direction = Player.NONE
+
+        if self.touch_enemy(enemy):
+            self.life = self.life - 1
 
 
         self.sprite_count += 1
@@ -94,4 +100,5 @@ class Player(pygame.sprite.Sprite):
         vx_max = (GameConfig.windowW-GameConfig.Player_W-x)/GameConfig.DT
         self.vx = min(self.vx, vx_max)
         self.vx = max(self.vx, vx_min)
+        print("Vie : ", self.life)
         self.rect = self.rect.move(self.vx * GameConfig.DT, self.vy * GameConfig.DT)

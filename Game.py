@@ -35,8 +35,9 @@ def Gameloop(window):
         next_move = get_next_move()
         gameState.advance_state(next_move)
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT or gameState.is_over():
                 quitting = True
+        print(gameState.is_over())
         pygame.display.update()
 
 

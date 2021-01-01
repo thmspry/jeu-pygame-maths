@@ -9,10 +9,11 @@ class Enemy(pygame.sprite.Sprite):
     NONE = 0
 
     def __init__(self, x):
-        self.rect = pygame.Rect(x, GameConfig.ENEMY_W, GameConfig.ENEMY_W,
+        self.rect = pygame.Rect(x, 400, GameConfig.ENEMY_W,
                                 GameConfig.ENEMY_H)
         self.vx = 0
         self.vy = 0
+        self.life = 200
         self.direction = Enemy.NONE
         self.image = Enemy.IMAGES[self.direction]
         self.mask = GameConfig.ENEMY_MASK
@@ -25,6 +26,8 @@ class Enemy(pygame.sprite.Sprite):
 
     def draw(self, window):
         window.blit(self.image, self.rect.topleft)
+        pygame.draw.rect(window, GameConfig.GREY_BAR, pygame.Rect(700, 25, 200, 30))
+        pygame.draw.rect(window, GameConfig.RED_LIFE, pygame.Rect(700, 25, self.life, 30))
 
     def on_ground(self):
         if self.rect.bottom == GameConfig.Y_Platform:
@@ -39,7 +42,15 @@ class Enemy(pygame.sprite.Sprite):
         self_x = self.rect.left
         self_y = self.rect.top
 
-        # Fonction affine
+        delta_x =  player_x - self_x
+        if delta_x > 0 :
+            self.direction = Enemy.RIGHT
+        else:
+            self.direction = Enemy.LEFT
+        self.image = Enemy.IMAGES[self.direction]
+        self.rect = self.rect.move(delta_x/50, 0)
+
+        '''Fonction affine
         denom = self_x - player_x
         if denom == 0:
             a = 10000000
@@ -47,7 +58,7 @@ class Enemy(pygame.sprite.Sprite):
             a = (self_y - player_y) / denom
         b = self_y / (a * self_x)
         print("Fonction : ", a, "X + ", b)
-        self.rect = self.rect.move(GameConfig.FORCE_ENEMY * b, 0)
+        self.rect = self.rect.move(GameConfig.FORCE_ENEMY * b, 0)'''
 
 
 

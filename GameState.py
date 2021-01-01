@@ -14,11 +14,11 @@ class GameState:
         self.enemy.draw(window)
 
     def is_over(self):
-        return self.player.touch_enemy(self.enemy)
+        return self.player.life <= 0 or self.enemy.life <= 0
 
 
     def advance_state(self, next_move):
-        self.player.advance_state(next_move)
+        self.player.advance_state(next_move, self.enemy)
         self.enemy.advance_state(self.player.rect.left, self.player.rect.top)
 
 

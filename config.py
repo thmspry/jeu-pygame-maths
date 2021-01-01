@@ -1,23 +1,23 @@
 import pygame
 
 class GameConfig:
-    windowH = 640
-    windowW = 960
-    Y_Platform = 473
+    windowH = 720
+    windowW = 1080
+    Y_Platform = 600
     Player_W = 64
     Player_H = 64
     ENEMY_W = 128
     ENEMY_H = 128
     ROCK_W = 10
     ROCK_H = 10
-    force_left_player = -20
+    force_left_player = -30
     force_right_player = -force_left_player
     DT = 0.5
     GRAVITY = 9.81
     FORCEJUMP = -100
     FORCE_ENEMY = 10
 
-    Background_IMG = pygame.image.load('sprites/background.png')
+    Background_IMG = pygame.image.load('sprites/background_ath.png')
     STANDING_IMG = [pygame.image.load('sprites/walk/stand1.png')]
     JUMP_RIGHT_IMG = [pygame.image.load('sprites/jump.png')]
     JUMP_RIGHT_MASK = [pygame.mask.from_surface(JUMP_RIGHT_IMG[0])]
@@ -27,6 +27,9 @@ class GameConfig:
     ENEMY_LEFT_IMG = pygame.image.load("sprites/enemy_bigger.png")
     ENEMY_RIGHT_IMG = pygame.transform.flip(pygame.image.load("sprites/enemy_bigger.png"), True, False)
     ENEMY_MASK = pygame.mask.from_surface(ENEMY_LEFT_IMG)
+
+    RED_LIFE = (199, 50, 50)
+    GREY_BAR = (110, 110, 110)
 
     WALK_RIGHT_IMG = [
         pygame.image.load('sprites/walk/walk1.png'),
