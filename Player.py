@@ -15,7 +15,7 @@ class Player(pygame.sprite.Sprite):
     NONE = 0
 
     def __init__(self, x):
-        self.rect = pygame.Rect(x, GameConfig.Y_Platform - GameConfig.Player_H, GameConfig.Player_W,
+        self.rect = pygame.Rect(x, GameConfig.Y_GROUND - GameConfig.Player_H, GameConfig.Player_W,
                                 GameConfig.Player_H)
         self.vx = 0
         self.vy = 0
@@ -39,7 +39,7 @@ class Player(pygame.sprite.Sprite):
         pygame.draw.rect(window, GameConfig.GREY_BAR, pygame.Rect(175, 25, 200, 30))
         if self.life >= 0 :
             pygame.draw.rect(window, GameConfig.RED_LIFE, pygame.Rect(175, 25, self.life*2, 30))
-        else :
+        else:
             pygame.draw.rect(window, GameConfig.RED_LIFE, pygame.Rect(175, 25, 0, 30))
 
         img = GameConfig.FONT20.render("Life : " + str(self.life), True, GameConfig.WHITE)
@@ -47,16 +47,16 @@ class Player(pygame.sprite.Sprite):
 
 
     def shoot(self):
-        pass
+         pass
 
     def on_ground(self):
-        if self.rect.bottom == GameConfig.Y_Platform:
-            return True
-        else:
-            return False
+        return self.rect.bottom == GameConfig.Y_GROUND
+
+    def on_platform(self):
+        return self.rect.bottom == GameConfig.Y_PLATFORMS[0] and self.rect.left >= GameConfig.X_PLATFORMS[0] and self.rect.right <= GameConfig.X_PLATFORMS[0] + GameConfig.PLATFORM_W
 
     def touch_border(self):
-        return self.rect.right >= GameConfig.windowW or self.rect.left == 0
+        return self.rect.right >= GameConfig.windowW or self.rect.left == 0 or self.rect.top <= 0
 
     def touch_enemy(self, enemy):
         return self.rect.colliderect(enemy.rect)
@@ -64,6 +64,7 @@ class Player(pygame.sprite.Sprite):
     def advance_state(self, next_move, enemy):
         fx = 0
         fy = 0
+        print("Sur la plat ? ",self.on_platform())
         if next_move.left:
             fx = GameConfig.force_left_player
             self.direction = Player.LEFT
@@ -93,19 +94,19 @@ class Player(pygame.sprite.Sprite):
             self.image = Player.IMAGES[self.direction][
                 self.sprite_count // GameConfig.NB_FRAMES_PER_SPRITE_PLAYER
                 ]
-        else :
+        else:
             self.image = Player.IMAGES[Player.NONE][0]
 
         self.mask = Player.MASK[self.direction][self.sprite_count // GameConfig.NB_FRAMES_PER_SPRITE_PLAYER]
 
         self.vx = fx * GameConfig.DT
-        if self.on_ground():
+        if self.on_ground() or self.on_platform():
             self.vy = fy*GameConfig.DT
         else:
             self.vy = self.vy + GameConfig.GRAVITY*GameConfig.DT
 
         x, y = self.rect.topleft
-        vy_max = (GameConfig.Y_Platform-GameConfig.Player_H-y)/GameConfig.DT
+        vy_max = (GameConfig.Y_GROUND-GameConfig.Player_H-y)/GameConfig.DT
         self.vy = min(self.vy, vy_max)
         vx_min = -x/GameConfig.DT
         vx_max = (GameConfig.windowW-GameConfig.Player_W-x)/GameConfig.DT

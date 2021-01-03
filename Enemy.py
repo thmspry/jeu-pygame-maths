@@ -37,10 +37,7 @@ class Enemy(pygame.sprite.Sprite):
         window.blit(img, (750, 57))
 
     def on_ground(self):
-        if self.rect.bottom == GameConfig.Y_Platform:
-            return True
-        else:
-            return False
+        return self.rect.bottom == GameConfig.Y_GROUND
 
     def touch_border(self):
         return self.rect.right >= GameConfig.windowW or self.rect.left == 0 or self.rect.top <= 0 or self.rect.bottom >= GameConfig.windowH

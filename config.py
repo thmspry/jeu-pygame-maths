@@ -1,12 +1,20 @@
 import pygame
 
+
 class GameConfig:
 
+    # Render font
     def init():
         GameConfig.FONT20 = pygame.font.Font('sprites/Axis_Extrabold.otf', 20)
+        GameConfig.FONT150 = pygame.font.Font('sprites/Axis_Extrabold.otf', 150)
+
+    # Useful values
     windowH = 720
     windowW = 1080
-    Y_Platform = 600
+    Y_GROUND = 600
+    Y_PLATFORMS = [550, 400]
+    X_PLATFORMS = [100, 300]
+    PLATFORM_W = 100
     Player_W = 64
     Player_H = 64
     ENEMY_W = 128
@@ -20,6 +28,7 @@ class GameConfig:
     FORCEJUMP = -100
     FORCE_ENEMY = 10
 
+    # Images
     Background_IMG = pygame.image.load('sprites/background_ath.png')
     STANDING_IMG = [pygame.image.load('sprites/walk/stand1.png')]
     JUMP_RIGHT_IMG = [pygame.image.load('sprites/jump.png')]
@@ -31,12 +40,15 @@ class GameConfig:
     ENEMY_RIGHT_IMG = pygame.transform.flip(pygame.image.load("sprites/enemy_bigger.png"), True, False)
     ENEMY_MASK = pygame.mask.from_surface(ENEMY_LEFT_IMG)
 
+    # Colors Code (R, G, B)
+    WHITE = (255, 255, 255)
+    BLACK = (0, 0, 0)
     RED_LIFE = (199, 50, 50)
     GREY_BAR = (110, 110, 110)
-    WHITE = (255,255,255)
+    YELLOW_GOLD_WIN = (230, 168, 0)
+    RED_DARK_LOSE = (156, 28, 23)
 
-
-
+    # Sprites
     WALK_RIGHT_IMG = [
         pygame.image.load('sprites/walk/walk1.png'),
         pygame.image.load('sprites/walk/walk2.png'),
@@ -46,7 +58,7 @@ class GameConfig:
         pygame.image.load('sprites/walk/walk6.png')
     ]
     WALK_LEFT_IMG = [
-       pygame.transform.flip(pygame.image.load('sprites/walk/walk1.png'), True, False),
+        pygame.transform.flip(pygame.image.load('sprites/walk/walk1.png'), True, False),
         pygame.transform.flip(pygame.image.load('sprites/walk/walk2.png'), True, False),
         pygame.transform.flip(pygame.image.load('sprites/walk/walk3.png'), True, False),
         pygame.transform.flip(pygame.image.load('sprites/walk/walk4.png'), True, False),

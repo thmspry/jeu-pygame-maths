@@ -1,7 +1,7 @@
 import pygame
 from config import *
 from Player import *
-from  GameState import *
+from GameState import *
 
 
 class Move:
@@ -11,6 +11,7 @@ class Move:
         self.up = False
         self.down = False
         self.attack = False
+
 
 def get_next_move():
     next_move = Move()
@@ -27,17 +28,51 @@ def get_next_move():
 
 
 def Gameloop(window):
-    gameState = GameState()
+    game_state = GameState()
     quitting = False
     while not quitting:
         pygame.time.delay(20)
-        gameState.draw(window)
-        next_move = get_next_move()
-        gameState.advance_state(next_move)
+        game_state.draw(window)
+
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or gameState.is_over():
+            if event.type == pygame.QUIT:
                 quitting = True
+        if game_state.is_win():
+            display_message(window, "You WIN", GameConfig.FONT150, GameConfig.windowW / 2, GameConfig.windowH / 2 - 50, GameConfig.YELLOW_GOLD_WIN)
+            display_message(window, "Press any key to continue", GameConfig.FONT20, GameConfig.windowW / 2,
+                            GameConfig.windowH / 2 + 50, GameConfig.BLACK)
+            quitting = True
+        if game_state.is_lose():
+            display_message(window, "You LOSE", GameConfig.FONT150, GameConfig.windowW / 2, GameConfig.windowH / 2 - 50,
+                            GameConfig.RED_DARK_LOSE)
+            display_message(window, "Press any key to continue", GameConfig.FONT20, GameConfig.windowW / 2,
+                            GameConfig.windowH / 2 + 50, GameConfig.BLACK)
+            quitting = True
+        next_move = get_next_move()
+        game_state.advance_state(next_move)
         pygame.display.update()
+    if playagain():
+        quitting = False
+    else:
+        quitting = True
+
+
+def display_message(window, message, font_size, x, y, font_color):
+    img = font_size.render(message, True, font_color)
+    display_rect = img.get_rect()
+    display_rect.center = (x, y)
+    window.blit(img, display_rect)
+
+
+def playagain():
+    pygame.time.delay(2000)
+    while True:
+        for event in pygame.event.get([pygame.KEYDOWN, pygame.QUIT]):
+            if event.type == pygame.QUIT:
+                return False
+            elif event.type == pygame.KEYDOWN:
+                return True
+        pygame.time.delay(500)
 
 
 pygame.init()
