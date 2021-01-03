@@ -5,8 +5,9 @@ class GameConfig:
 
     # Render font
     def init():
-        GameConfig.FONT20 = pygame.font.Font('sprites/Axis_Extrabold.otf', 20)
-        GameConfig.FONT150 = pygame.font.Font('sprites/Axis_Extrabold.otf', 150)
+        main_font_path = "assets/fonts/Axis_Extrabold.otf"
+        GameConfig.FONT20 = pygame.font.Font(main_font_path, 20)
+        GameConfig.FONT150 = pygame.font.Font(main_font_path, 150)
 
     # Useful values
     windowH = 720
@@ -29,15 +30,16 @@ class GameConfig:
     FORCE_ENEMY = 10
 
     # Images
-    Background_IMG = pygame.image.load('sprites/background_ath.png')
-    STANDING_IMG = [pygame.image.load('sprites/walk/stand1.png')]
-    JUMP_RIGHT_IMG = [pygame.image.load('sprites/jump.png')]
+    icon_IMG = pygame.image.load('assets/images/icon.png')
+    Background_IMG = pygame.image.load('assets/images/background_ath.png')
+    STANDING_IMG = [pygame.image.load('assets/images/sprites/walk/stand1.png')]
+    JUMP_RIGHT_IMG = [pygame.image.load('assets/images/jump.png')]
     JUMP_RIGHT_MASK = [pygame.mask.from_surface(JUMP_RIGHT_IMG[0])]
-    JUMP_LEFT_IMG = pygame.transform.flip(pygame.image.load('sprites/jump.png'), True, False)
-    ROCK_IMG = pygame.image.load('sprites/rock.png')
-    ROCK_IMG_MASK = pygame.image.load('sprites/rock.png')
-    ENEMY_LEFT_IMG = pygame.image.load("sprites/enemy_bigger.png")
-    ENEMY_RIGHT_IMG = pygame.transform.flip(pygame.image.load("sprites/enemy_bigger.png"), True, False)
+    JUMP_LEFT_IMG = pygame.transform.flip(pygame.image.load('assets/images/jump.png'), True, False)
+    ROCK_IMG = pygame.image.load('assets/images/rock.png')
+    ROCK_IMG_MASK = pygame.image.load('assets/images/rock.png')
+    ENEMY_LEFT_IMG = pygame.image.load("assets/images/enemy_bigger.png")
+    ENEMY_RIGHT_IMG = pygame.transform.flip(pygame.image.load("assets/images/enemy_bigger.png"), True, False)
     ENEMY_MASK = pygame.mask.from_surface(ENEMY_LEFT_IMG)
 
     # Colors Code (R, G, B)
@@ -50,20 +52,20 @@ class GameConfig:
 
     # Sprites
     WALK_RIGHT_IMG = [
-        pygame.image.load('sprites/walk/walk1.png'),
-        pygame.image.load('sprites/walk/walk2.png'),
-        pygame.image.load('sprites/walk/walk3.png'),
-        pygame.image.load('sprites/walk/walk4.png'),
-        pygame.image.load('sprites/walk/walk5.png'),
-        pygame.image.load('sprites/walk/walk6.png')
+        pygame.image.load('assets/images/sprites/walk/walk1.png'),
+        pygame.image.load('assets/images/sprites/walk/walk2.png'),
+        pygame.image.load('assets/images/sprites/walk/walk3.png'),
+        pygame.image.load('assets/images/sprites/walk/walk4.png'),
+        pygame.image.load('assets/images/sprites/walk/walk5.png'),
+        pygame.image.load('assets/images/sprites/walk/walk6.png')
     ]
     WALK_LEFT_IMG = [
-        pygame.transform.flip(pygame.image.load('sprites/walk/walk1.png'), True, False),
-        pygame.transform.flip(pygame.image.load('sprites/walk/walk2.png'), True, False),
-        pygame.transform.flip(pygame.image.load('sprites/walk/walk3.png'), True, False),
-        pygame.transform.flip(pygame.image.load('sprites/walk/walk4.png'), True, False),
-        pygame.transform.flip(pygame.image.load('sprites/walk/walk5.png'), True, False),
-        pygame.transform.flip(pygame.image.load('sprites/walk/walk6.png'), True, False)
+        pygame.transform.flip(pygame.image.load('assets/images/sprites/walk/walk1.png'), True, False),
+        pygame.transform.flip(pygame.image.load('assets/images/sprites/walk/walk2.png'), True, False),
+        pygame.transform.flip(pygame.image.load('assets/images/sprites/walk/walk3.png'), True, False),
+        pygame.transform.flip(pygame.image.load('assets/images/sprites/walk/walk4.png'), True, False),
+        pygame.transform.flip(pygame.image.load('assets/images/sprites/walk/walk5.png'), True, False),
+        pygame.transform.flip(pygame.image.load('assets/images/sprites/walk/walk6.png'), True, False)
     ]
 
     WALK_RIGHT_MASK = []
