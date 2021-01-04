@@ -53,7 +53,7 @@ class Player(pygame.sprite.Sprite):
         return self.rect.bottom == GameConfig.Y_GROUND
 
     def on_platform(self):
-        return self.rect.bottom == GameConfig.Y_PLATFORMS[0] and self.rect.left >= GameConfig.X_PLATFORMS[0] and self.rect.right <= GameConfig.X_PLATFORMS[0] + GameConfig.PLATFORM_W
+        return self.rect.bottom <= GameConfig.Y_PLATFORMS[0] and self.rect.bottom <= GameConfig.Y_PLATFORMS[0] and self.rect.right >= GameConfig.X_PLATFORMS[0] and self.rect.left <= GameConfig.X_PLATFORMS[0] + GameConfig.PLATFORM_W
 
     def touch_border(self):
         return self.rect.right >= GameConfig.windowW or self.rect.left == 0 or self.rect.top <= 0
@@ -64,7 +64,7 @@ class Player(pygame.sprite.Sprite):
     def advance_state(self, next_move, enemy):
         fx = 0
         fy = 0
-        print("Sur la plat ? ",self.on_platform())
+        print(self.rect.bottom, " ; ", GameConfig.Y_PLATFORMS[0])
         if next_move.left:
             fx = GameConfig.force_left_player
             self.direction = Player.LEFT
