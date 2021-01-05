@@ -1,4 +1,3 @@
-import pygame
 import random
 from config import *
 
@@ -10,7 +9,10 @@ class Player(pygame.sprite.Sprite):
     RIGHT = 1
     UPL = 2
     UPR = 3
-    ATTACK = 4
+    PUNCH_LEFT = 4
+    PUNCH_RIGHT = 5
+    PUNCH_FOOT_LEFT = 6
+    PUNCH_FOOT_RIGHT = 7
     DOWN = -2
     NONE = 0
 
@@ -30,9 +32,11 @@ class Player(pygame.sprite.Sprite):
     def init_sprites():
         Player.IMAGES = {Player.RIGHT: GameConfig.WALK_RIGHT_IMG, Player.NONE: GameConfig.STANDING_IMG,
                          Player.LEFT: GameConfig.WALK_LEFT_IMG, Player.UPL: GameConfig.JUMP_LEFT_IMG,
-                         Player.UPR: GameConfig.JUMP_RIGHT_IMG}
+                         Player.UPR: GameConfig.JUMP_RIGHT_IMG, Player.PUNCH_LEFT : GameConfig.PUNCH_LEFT_IMG, Player.PUNCH_RIGHT : GameConfig.PUNCH_RIGHT_IMG,
+                         Player.PUNCH_FOOT_RIGHT : GameConfig.PUNCH_FOOT_RIGHT_IMG, Player.PUNCH_FOOT_LEFT : GameConfig.PUNCH_FOOT_LEFT_IMG}
         Player.MASK = {Player.RIGHT: GameConfig.WALK_RIGHT_MASK, Player.NONE: GameConfig.STANDING_MASK,
-                       Player.LEFT: GameConfig.WALK_LEFT_IMG, Player.UPR: GameConfig.JUMP_RIGHT_MASK}
+                       Player.LEFT: GameConfig.WALK_LEFT_MASK, Player.UPR: GameConfig.JUMP_RIGHT_MASK, Player.PUNCH_LEFT : GameConfig.PUNCH_LEFT_MASK, Player.PUNCH_RIGHT : GameConfig.PUNCH_RIGHT_MASK,
+                       Player.PUNCH_FOOT_RIGHT : GameConfig.PUNCH_FOOT_RIGHT_MASK, Player.PUNCH_FOOT_LEFT : GameConfig.PUNCH_FOOT_LEFT_MASK}
 
     def draw(self, window):
         window.blit(self.image, self.rect.topleft)
@@ -45,6 +49,17 @@ class Player(pygame.sprite.Sprite):
         img = GameConfig.FONT20.render("Life : " + str(self.life), True, GameConfig.WHITE)
         window.blit(img, (220, 57))
 
+    def punch(self, enemy):
+        rect = self.rect.copy()
+        rect.inflate_ip(15, 0)
+        if rect.colliderect(enemy.rect):
+            enemy.get_hit(15)
+
+    def punch_foot(self, enemy):
+        rect = self.rect.copy()
+        rect.inflate_ip(25, 0)
+        if rect.colliderect(enemy.rect):
+            enemy.get_hit(20)
 
     def shoot(self):
          pass
@@ -74,6 +89,18 @@ class Player(pygame.sprite.Sprite):
         elif next_move.up:
             fy = GameConfig.FORCEJUMP
             self.direction = Player.UPR
+        elif next_move.punch:
+            self.punch(enemy)
+            if self.direction == Player.LEFT:
+                self.direction = Player.PUNCH_LEFT
+            else:
+                self.direction = Player.PUNCH_RIGHT
+        elif next_move.punch_foot:
+            self.punch(enemy)
+            if self.direction == Player.LEFT:
+                self.direction = Player.PUNCH_FOOT_LEFT
+            else:
+                self.direction = Player.PUNCH_FOOT_RIGHT
         else:
             self.direction = Player.NONE
 

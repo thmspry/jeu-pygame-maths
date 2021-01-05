@@ -30,7 +30,7 @@ class GameConfig:
     FORCE_ENEMY = 10
 
     # Images
-    icon_IMG = pygame.image.load('assets/images/icon.png')
+  #  icon_IMG = pygame.image.load('assets/images/icon.png')
     Background_IMG = pygame.image.load('assets/images/background_ath.png')
     STANDING_IMG = [pygame.image.load('assets/images/sprites/walk/stand1.png')]
     JUMP_RIGHT_IMG = [pygame.image.load('assets/images/jump.png')]
@@ -68,6 +68,38 @@ class GameConfig:
         pygame.transform.flip(pygame.image.load('assets/images/sprites/walk/walk6.png'), True, False)
     ]
 
+    PUNCH_RIGHT_IMG = [
+        pygame.image.load('assets/images/sprites/punch/punch1.png'),
+        pygame.image.load('assets/images/sprites/punch/punch2.png'),
+        pygame.image.load('assets/images/sprites/punch/punch3.png'),
+        pygame.image.load('assets/images/sprites/punch/punch4.png'),
+        pygame.image.load('assets/images/sprites/punch/punch5.png')
+    ]
+
+    PUNCH_LEFT_IMG = [
+        pygame.transform.flip(pygame.image.load('assets/images/sprites/punch/punch1.png'), True, False),
+        pygame.transform.flip(pygame.image.load('assets/images/sprites/punch/punch2.png'), True, False),
+        pygame.transform.flip(pygame.image.load('assets/images/sprites/punch/punch3.png'), True, False),
+        pygame.transform.flip(pygame.image.load('assets/images/sprites/punch/punch4.png'), True, False),
+        pygame.transform.flip(pygame.image.load('assets/images/sprites/punch/punch5.png'), True, False)
+    ]
+
+    PUNCH_FOOT_RIGHT_IMG = [
+        pygame.image.load('assets/images/sprites/punch_foot/punch_foot1.png'),
+        pygame.image.load('assets/images/sprites/punch_foot/punch_foot2.png'),
+        pygame.image.load('assets/images/sprites/punch_foot/punch_foot3.png'),
+        pygame.image.load('assets/images/sprites/punch_foot/punch_foot4.png'),
+        pygame.image.load('assets/images/sprites/punch_foot/punch_foot5.png')
+    ]
+
+    PUNCH_FOOT_LEFT_IMG = [
+        pygame.transform.flip(pygame.image.load('assets/images/sprites/punch_foot/punch_foot1.png'), True, False),
+        pygame.transform.flip(pygame.image.load('assets/images/sprites/punch_foot/punch_foot2.png'), True, False),
+        pygame.transform.flip(pygame.image.load('assets/images/sprites/punch_foot/punch_foot3.png'), True, False),
+        pygame.transform.flip(pygame.image.load('assets/images/sprites/punch_foot/punch_foot4.png'), True, False),
+        pygame.transform.flip(pygame.image.load('assets/images/sprites/punch_foot/punch_foot5.png'), True, False)
+    ]
+
     WALK_RIGHT_MASK = []
     WALK_LEFT_MASK = []
     for im in WALK_RIGHT_IMG:
@@ -75,4 +107,18 @@ class GameConfig:
     STANDING_MASK = [pygame.mask.from_surface(STANDING_IMG[0])]
     for im in WALK_LEFT_IMG:
         WALK_LEFT_MASK.append(pygame.mask.from_surface(im))
+
+    PUNCH_LEFT_MASK = []
+    for im in PUNCH_LEFT_IMG:
+        PUNCH_LEFT_MASK.append(pygame.mask.from_surface(im))
+    PUNCH_RIGHT_MASK = []
+    for im in PUNCH_RIGHT_IMG:
+        PUNCH_RIGHT_MASK.append(pygame.mask.from_surface(im))
+
+    PUNCH_FOOT_LEFT_MASK = []
+    for im in PUNCH_FOOT_LEFT_IMG:
+        PUNCH_FOOT_LEFT_MASK.append(pygame.mask.from_surface(im))
+    PUNCH_FOOT_RIGHT_MASK = []
+    for im in PUNCH_FOOT_RIGHT_IMG:
+        PUNCH_FOOT_RIGHT_MASK.append(pygame.mask.from_surface(im))
     NB_FRAMES_PER_SPRITE_PLAYER = 6

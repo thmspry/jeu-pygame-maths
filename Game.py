@@ -10,7 +10,8 @@ class Move:
         self.right = False
         self.up = False
         self.down = False
-        self.attack = False
+        self.punch = False
+        self.punch_foot = False
 
 
 def get_next_move():
@@ -24,6 +25,10 @@ def get_next_move():
         next_move.up = True
     if keys[pygame.K_SPACE]:
         next_move.attack = True
+    if keys[pygame.K_x]:
+        next_move.punch = True
+    if keys[pygame.K_c]:
+        next_move.punch_foot = True
     return next_move
 
 
@@ -81,7 +86,7 @@ Player.init_sprites()
 Enemy.init_sprites()
 window = pygame.display.set_mode((GameConfig.windowW, GameConfig.windowH))
 pygame.display.set_caption("Mortal Battle Mega Fight Kombat Smash Ultimate of Isaac")
-pygame.display.set_icon(GameConfig.icon_IMG)
+#pygame.display.set_icon(GameConfig.icon_IMG)
 Gameloop(window)
 pygame.quit()
 quit()

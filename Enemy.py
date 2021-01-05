@@ -36,6 +36,9 @@ class Enemy(pygame.sprite.Sprite):
         img = GameConfig.FONT20.render("Life : " + str(self.life), True, GameConfig.WHITE)
         window.blit(img, (750, 57))
 
+    def get_hit(self, attack):
+        self.life-=attack
+
     def on_ground(self):
         return self.rect.bottom == GameConfig.Y_GROUND
 
@@ -49,10 +52,10 @@ class Enemy(pygame.sprite.Sprite):
         player_x = player.rect.left
         player_y = player.rect.top
 
-        if next_move.attack  and player.touch_enemy(self):
+        '''if next_move.punch  and player.touch_enemy(self):
             damage = random.randint(5,30)
             self.life = self.life - damage
-
+        '''
         if self.life < 0:
             self.life=0
 
