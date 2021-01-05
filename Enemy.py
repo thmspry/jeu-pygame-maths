@@ -18,6 +18,7 @@ class Enemy(pygame.sprite.Sprite):
         self.direction = Enemy.NONE
         self.image = Enemy.IMAGES[self.direction]
         self.mask = GameConfig.ENEMY_MASK
+        self.delay = 0
 
     @staticmethod
     def init_sprites():
@@ -36,8 +37,9 @@ class Enemy(pygame.sprite.Sprite):
         img = GameConfig.FONT20.render("Life : " + str(self.life), True, GameConfig.WHITE)
         window.blit(img, (750, 57))
 
-    def get_hit(self, attack):
-        self.life-=attack
+    def get_hit(self, attack, delay, limit):
+        if delay == limit:
+            self.life -= attack
 
     def on_ground(self):
         return self.rect.bottom == GameConfig.Y_GROUND
@@ -56,6 +58,15 @@ class Enemy(pygame.sprite.Sprite):
             damage = random.randint(5,30)
             self.life = self.life - damage
         '''
+
+        if player.touch_enemy(self):
+            self.delay += 1
+            damage = random.randint(5, 30)
+            limit = 30
+            player.get_hit(damage, self.delay, limit)
+            if self.delay == limit:
+                self.delay = 0
+
         if self.life < 0:
             self.life=0
 

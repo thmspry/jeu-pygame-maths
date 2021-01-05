@@ -26,7 +26,7 @@ class Player(pygame.sprite.Sprite):
         self.direction = Player.NONE
         self.image = Player.IMAGES[self.direction][self.sprite_count // GameConfig.NB_FRAMES_PER_SPRITE_PLAYER]
         self.mask = Player.MASK[self.direction][self.sprite_count // GameConfig.NB_FRAMES_PER_SPRITE_PLAYER]
-        self.tmp = 0
+        self.delay = 0
 
     @staticmethod
     def init_sprites():
@@ -49,17 +49,23 @@ class Player(pygame.sprite.Sprite):
         img = GameConfig.FONT20.render("Life : " + str(self.life), True, GameConfig.WHITE)
         window.blit(img, (220, 57))
 
-    def punch(self, enemy):
+    def punch(self, enemy, delay):
         rect = self.rect.copy()
         rect.inflate_ip(15, 0)
+        limit = 20
         if rect.colliderect(enemy.rect):
-            enemy.get_hit(15)
+            enemy.get_hit(15, delay, limit)
+            if self.delay == limit:
+                self.delay = 0
 
-    def punch_foot(self, enemy):
+    def punch_foot(self, enemy, delay):
         rect = self.rect.copy()
         rect.inflate_ip(25, 0)
+        limit = 26
         if rect.colliderect(enemy.rect):
-            enemy.get_hit(20)
+            enemy.get_hit(20, delay, limit)
+            if self.delay == limit:
+                self.delay = 0
 
     def shoot(self):
          pass
@@ -76,10 +82,14 @@ class Player(pygame.sprite.Sprite):
     def touch_enemy(self, enemy):
         return self.rect.colliderect(enemy.rect)
 
+    def get_hit(self, attack, delay, limit):
+        if delay == limit:
+            self.life -= attack
+
     def advance_state(self, next_move, enemy):
         fx = 0
         fy = 0
-        print(self.rect.bottom, " ; ", GameConfig.Y_PLATFORMS[0])
+        print(self.delay)
         if next_move.left:
             fx = GameConfig.force_left_player
             self.direction = Player.LEFT
@@ -90,13 +100,15 @@ class Player(pygame.sprite.Sprite):
             fy = GameConfig.FORCEJUMP
             self.direction = Player.UPR
         elif next_move.punch:
-            self.punch(enemy)
+            self.delay += 1
+            self.punch(enemy, self.delay)
             if self.direction == Player.LEFT:
                 self.direction = Player.PUNCH_LEFT
             else:
                 self.direction = Player.PUNCH_RIGHT
         elif next_move.punch_foot:
-            self.punch(enemy)
+            self.delay += 1
+            self.punch_foot(enemy, self.delay)
             if self.direction == Player.LEFT:
                 self.direction = Player.PUNCH_FOOT_LEFT
             else:
@@ -104,15 +116,15 @@ class Player(pygame.sprite.Sprite):
         else:
             self.direction = Player.NONE
 
-        if self.touch_enemy(enemy):
+        '''if self.touch_enemy(enemy):
             if self.tmp == 10:
                 damage = random.randint(5,30)
                 self.life = self.life - damage
                 self.tmp = 0
-            self.tmp +=1
+            self.tmp +=1'''
 
         if self.life < 0:
-            self.life=0
+            self.life = 0
 
         self.sprite_count += 1
         if self.sprite_count >= GameConfig.NB_FRAMES_PER_SPRITE_PLAYER * len(Player.IMAGES[self.direction]):
