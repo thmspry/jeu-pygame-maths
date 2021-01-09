@@ -26,7 +26,8 @@ class GameConfig:
     force_right_player = -force_left_player
     DT = 0.5
     GRAVITY = 9.81
-    FORCEJUMP = -100
+    RESISTANCE = 0
+    FORCEJUMP = -130
     FORCE_ENEMY = 10
 
     # Images

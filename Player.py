@@ -16,17 +16,21 @@ class Player(pygame.sprite.Sprite):
     DOWN = -2
     NONE = 0
 
-    def __init__(self, x):
+
+    def __init__(self, x, gameState):
         self.rect = pygame.Rect(x, GameConfig.Y_GROUND - GameConfig.Player_H, GameConfig.Player_W,
                                 GameConfig.Player_H)
         self.vx = 0
         self.vy = 0
+        self.fx = 0
+        self.fy = 0
         self.life = 100
         self.sprite_count = 0
         self.direction = Player.NONE
         self.image = Player.IMAGES[self.direction][self.sprite_count // GameConfig.NB_FRAMES_PER_SPRITE_PLAYER]
         self.mask = Player.MASK[self.direction][self.sprite_count // GameConfig.NB_FRAMES_PER_SPRITE_PLAYER]
         self.delay = 0
+        self.gameState = gameState
 
     @staticmethod
     def init_sprites():
@@ -55,7 +59,7 @@ class Player(pygame.sprite.Sprite):
         limit = 20
         if rect.colliderect(enemy.rect):
             enemy.get_hit(15, delay, limit)
-            if self.delay == limit:
+            if self.delay >= limit:
                 self.delay = 0
 
     def punch_foot(self, enemy, delay):
@@ -64,7 +68,7 @@ class Player(pygame.sprite.Sprite):
         limit = 26
         if rect.colliderect(enemy.rect):
             enemy.get_hit(20, delay, limit)
-            if self.delay == limit:
+            if self.delay >= limit:
                 self.delay = 0
 
     def shoot(self):
@@ -74,7 +78,10 @@ class Player(pygame.sprite.Sprite):
         return self.rect.bottom == GameConfig.Y_GROUND
 
     def on_platform(self):
-        return self.rect.bottom <= GameConfig.Y_PLATFORMS[0] and self.rect.bottom <= GameConfig.Y_PLATFORMS[0] and self.rect.right >= GameConfig.X_PLATFORMS[0] and self.rect.left <= GameConfig.X_PLATFORMS[0] + GameConfig.PLATFORM_W
+        for plateform in self.gameState.platforms_group:
+            print(self.rect.midbottom[1] //10 * 10)
+            if self.rect.midbottom[1] // 10 * 10 == plateform.rect.top and self.rect.colliderect(plateform):
+                return True
 
     def touch_border(self):
         return self.rect.right >= GameConfig.windowW or self.rect.left == 0 or self.rect.top <= 0
