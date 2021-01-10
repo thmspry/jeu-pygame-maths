@@ -32,8 +32,8 @@ class GameState:
             self.projectiles_group.add(projectile)
             self.player.a_tire = False
         for projectile in self.projectiles_group:
-            projectile.mouvement(10)
-            if projectile.rect.right >= window.get_width() or projectile.rect.left <= 0:
+            projectile.mouvement(20)
+            if projectile.rect.top >= GameConfig.windowH:
                 self.projectiles_group.remove(projectile)
             if self.enemy.rect.colliderect(projectile.rect):
                 self.enemy.get_hit(10, 0, 0)

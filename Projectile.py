@@ -15,18 +15,24 @@ class Projectile(pygame.sprite.Sprite) :
         self.delay = 0
         self.pos = -10
         self.lastY = None
+        self.rebond = False
 
     def draw(self, window):
         window.blit(self.image, self.rect)
 
     def mouvement(self, vitesse):
-        self.rect.x += vitesse * self.direction
+        if self.rebond:
+            self.rect.x -= vitesse*self.direction
+        else:
+            self.rect.x += vitesse * self.direction
         if self.lastY is not None and self.lastY > self.fonction_carre(self.pos):
             self.rect.y -= self.fonction_carre(self.pos)
         else:
             self.rect.y += self.fonction_carre(self.pos)
         self.lastY = self.fonction_carre(self.pos)
         self.pos+=1
+        if self.rect.x >= GameConfig.windowW or self.rect.x <= 0:
+            self.rebond = True
 
         print(self.rect.x, "       ", self.rect.y)
         self.delay += 1
@@ -39,4 +45,4 @@ class Projectile(pygame.sprite.Sprite) :
             self.draw()
 '''
     def fonction_carre(self, x):
-        return (-1 * (x**2))+(1*x)+3
+        return 0.07*(x**2)+3*x
