@@ -1,4 +1,6 @@
 import random
+
+from Projectile import Projectile
 from config import *
 
 
@@ -31,6 +33,10 @@ class Player(pygame.sprite.Sprite):
         self.mask = Player.MASK[self.direction][self.sprite_count // GameConfig.NB_FRAMES_PER_SPRITE_PLAYER]
         self.delay = 0
         self.gameState = gameState
+
+        self.a_tire = False
+        self.tire_autorisee = 2
+        self.direction_tir = 1
 
     @staticmethod
     def init_sprites():
@@ -72,7 +78,7 @@ class Player(pygame.sprite.Sprite):
                 self.delay = 0
 
     def shoot(self):
-         pass
+        pass
 
     def on_ground(self):
         return self.rect.bottom == GameConfig.Y_GROUND
@@ -120,8 +126,10 @@ class Player(pygame.sprite.Sprite):
                 self.direction = Player.PUNCH_FOOT_LEFT
             else:
                 self.direction = Player.PUNCH_FOOT_RIGHT
-        else:
-            self.direction = Player.NONE
+        elif next_move.tir:
+            self.a_tire = True
+        #else:
+          #  self.direction = Player.NONE
 
         '''if self.touch_enemy(enemy):
             if self.tmp == 10:

@@ -12,6 +12,7 @@ class Move:
         self.down = False
         self.punch = False
         self.punch_foot = False
+        self.tir = False
 
 
 def get_next_move():
@@ -29,6 +30,8 @@ def get_next_move():
         next_move.punch = True
     if keys[pygame.K_c]:
         next_move.punch_foot = True
+    if keys[pygame.K_w]:
+        next_move.tir = True
     return next_move
 
 
