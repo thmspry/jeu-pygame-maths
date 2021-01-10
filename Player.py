@@ -85,7 +85,6 @@ class Player(pygame.sprite.Sprite):
 
     def on_platform(self):
         for plateform in self.gameState.platforms_group:
-            print(self.rect.midbottom[1] //10 * 10)
             if self.rect.midbottom[1] // 10 * 10 == plateform.rect.top and self.rect.colliderect(plateform):
                 return True
 
@@ -102,7 +101,7 @@ class Player(pygame.sprite.Sprite):
     def advance_state(self, next_move, enemy):
         fx = 0
         fy = 0
-        print(self.delay)
+        print("Delay : ", self.delay)
         if next_move.left:
             fx = GameConfig.force_left_player
             self.direction = Player.LEFT
@@ -127,9 +126,14 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.direction = Player.PUNCH_FOOT_RIGHT
         elif next_move.tir:
+            self.delay += 1
             self.a_tire = True
-        #else:
-          #  self.direction = Player.NONE
+            if self.delay > 20:
+                self.delay = 0
+        else:
+            self.delay = 19
+
+            #self.direction = Player.NONE
 
         '''if self.touch_enemy(enemy):
             if self.tmp == 10:

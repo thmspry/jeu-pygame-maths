@@ -20,8 +20,8 @@ class GameConfig:
     Player_H = 64
     ENEMY_W = 128
     ENEMY_H = 128
-    ROCK_W = 10
-    ROCK_H = 10
+    ROCK_W = 30
+    ROCK_H = 30
     force_left_player = -30
     force_right_player = -force_left_player
     DT = 0.5
@@ -31,7 +31,7 @@ class GameConfig:
     FORCE_ENEMY = 10
 
     # Images
-  #  icon_IMG = pygame.image.load('assets/images/icon.png')
+    icon_IMG = pygame.image.load('assets/images/icon.png')
     Background_IMG = pygame.image.load('assets/images/background_ath.png')
     STANDING_IMG = [pygame.image.load('assets/images/sprites/walk/stand1.png')]
     JUMP_RIGHT_IMG = [pygame.image.load('assets/images/jump.png')]
