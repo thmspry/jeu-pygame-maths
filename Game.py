@@ -39,7 +39,7 @@ def Gameloop(window):
     game_state = GameState()
     quitting = False
     while not quitting:
-        pygame.time.delay(20)
+        pygame.time.delay(100)
         game_state.draw(window)
 
         for event in pygame.event.get():

@@ -101,7 +101,6 @@ class Player(pygame.sprite.Sprite):
     def advance_state(self, next_move, enemy):
         fx = 0
         fy = 0
-        print("Delay : ", self.delay)
         if next_move.left:
             fx = GameConfig.force_left_player
             self.direction = Player.LEFT
