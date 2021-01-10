@@ -18,7 +18,7 @@ class Projectile(pygame.sprite.Sprite) :
 
     def mouvement(self, vitesse):
         self.rect.x += vitesse * self.direction
-        self.image = pygame.transform.flip(self.image, True, False)
+        self.image = pygame.transform.rotate(self.image, -90)
     '''def advance_state(self, next_move):
         if next_move.attack :
             self.vx = self.vx*GameConfig.DT
