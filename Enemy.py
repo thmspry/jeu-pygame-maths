@@ -1,5 +1,8 @@
 import pygame
 import random
+
+from pygame.sprite import Group
+
 from config import *
 
 
@@ -19,6 +22,11 @@ class Enemy(pygame.sprite.Sprite):
         self.image = Enemy.IMAGES[self.direction]
         self.mask = GameConfig.ENEMY_MASK
         self.delay = 0
+        self.a_tire = False
+        self.tire_autorisee = 3
+        self.direction_tir = 1
+        self.delay_proj = 0
+        self.nb_tir = 0
 
     @staticmethod
     def init_sprites():
@@ -58,6 +66,12 @@ class Enemy(pygame.sprite.Sprite):
             damage = random.randint(5,30)
             self.life = self.life - damage
         '''
+        self.delay_proj+=1
+
+        if self.delay_proj >= 30 and self.nb_tir<self.tire_autorisee:
+            self.a_tire = True
+            self.delay_proj = 0
+            self.nb_tir+=1
 
         if player.touch_enemy(self):
             self.delay += 1

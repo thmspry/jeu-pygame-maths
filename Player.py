@@ -31,12 +31,13 @@ class Player(pygame.sprite.Sprite):
         self.direction = Player.NONE
         self.image = Player.IMAGES[self.direction][self.sprite_count // GameConfig.NB_FRAMES_PER_SPRITE_PLAYER]
         self.mask = Player.MASK[self.direction][self.sprite_count // GameConfig.NB_FRAMES_PER_SPRITE_PLAYER]
-        self.delay = 0
+        self.delay = 19
         self.gameState = gameState
 
         self.a_tire = False
         self.tire_autorisee = 2
         self.direction_tir = 1
+
 
     @staticmethod
     def init_sprites():
@@ -161,6 +162,64 @@ class Player(pygame.sprite.Sprite):
             self.vy = fy*GameConfig.DT
         else:
             self.vy = self.vy + GameConfig.GRAVITY*GameConfig.DT
+
+        x, y = self.rect.topleft
+        vy_max = (GameConfig.Y_GROUND-GameConfig.Player_H-y)/GameConfig.DT
+        self.vy = min(self.vy, vy_max)
+        vx_min = -x/GameConfig.DT
+        vx_max = (GameConfig.windowW-GameConfig.Player_W-x)/GameConfig.DT
+        self.vx = min(self.vx, vx_max)
+        self.vx = max(self.vx, vx_min)
+        self.rect = self.rect.move(self.vx * GameConfig.DT, self.vy * GameConfig.DT)
+
+    def IA(self, enemy):
+        fx = 0
+        fy = 0
+        projectile = Projectile(self.rect.x + 20, self.rect.y, [GameConfig.ROCK_W, GameConfig.ROCK_H], self.direction)
+        self.direction = 1
+        self.delay +=2
+        print(self.rect.x)
+        if enemy.rect.left-300 < (self.rect.x + 20 + (7 * 20 * self.direction)) < enemy.rect.right:
+            self.a_tire = True
+            if self.delay>=20:
+                self.delay = 0
+        elif self.rect.colliderect(enemy.rect):
+            print("aa")
+            if random.randint(0, 1) == 0:
+                self.punch(enemy, self.delay)
+            else:
+                self.punch_foot(enemy, self.delay)
+        elif (self.rect.x + 20 + (7 * 20 * self.direction)) < enemy.rect.left:
+            fx = GameConfig.force_left_player
+            self.direction = Player.LEFT
+        elif (self.rect.x + 20 + (7 * 20 * self.direction)) > enemy.rect.right:
+            fx = GameConfig.force_right_player
+            self.direction = Player.RIGHT
+        if self.rect.x == 0:
+            fy = GameConfig.FORCEJUMP
+            self.direction = Player.UPR
+
+
+
+
+        self.sprite_count += 1
+        if self.sprite_count >= GameConfig.NB_FRAMES_PER_SPRITE_PLAYER * len(Player.IMAGES[self.direction]):
+            self.sprite_count = 0
+        if not self.touch_border():
+            self.image = Player.IMAGES[self.direction][
+                self.sprite_count // GameConfig.NB_FRAMES_PER_SPRITE_PLAYER
+                ]
+        else:
+            self.image = Player.IMAGES[Player.NONE][0]
+
+        self.mask = Player.MASK[self.direction][self.sprite_count // GameConfig.NB_FRAMES_PER_SPRITE_PLAYER]
+
+        self.vx = fx * GameConfig.DT
+        if self.on_ground() or self.on_platform():
+            self.vy = fy*GameConfig.DT
+        else:
+            self.vy = self.vy + GameConfig.GRAVITY*GameConfig.DT
+
 
         x, y = self.rect.topleft
         vy_max = (GameConfig.Y_GROUND-GameConfig.Player_H-y)/GameConfig.DT

@@ -1,3 +1,5 @@
+import sys
+
 import pygame
 from config import *
 from Player import *
@@ -44,7 +46,7 @@ def Gameloop(window):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                quitting = True
+                sys.exit()
         if game_state.is_win():
             display_message(window, "You WIN", GameConfig.FONT150, GameConfig.windowW / 2, GameConfig.windowH / 2 - 50, GameConfig.YELLOW_GOLD_WIN)
             display_message(window, "Press any key to continue", GameConfig.FONT20, GameConfig.windowW / 2,
