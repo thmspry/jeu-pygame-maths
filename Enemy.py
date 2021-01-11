@@ -84,13 +84,16 @@ class Enemy(pygame.sprite.Sprite):
         if self.life < 0:
             self.life=0
 
-        delta_x =  player_x - self_x
+        delta_x = player_x - self_x
         if delta_x > 0 :
             self.direction = Enemy.RIGHT
         else:
             self.direction = Enemy.LEFT
         self.image = Enemy.IMAGES[self.direction]
-        self.rect = self.rect.move(delta_x/50, 0)
+        if self.direction == Enemy.RIGHT:
+            self.rect = self.rect.move(3, 0)
+        else:
+            self.rect = self.rect.move(-3, 0)
 
         '''Fonction affine
         denom = self_x - player_x

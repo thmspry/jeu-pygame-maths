@@ -4,17 +4,7 @@ import pygame
 from config import *
 from Player import *
 from GameState import *
-
-
-class Move:
-    def __init__(self):
-        self.left = False
-        self.right = False
-        self.up = False
-        self.down = False
-        self.punch = False
-        self.punch_foot = False
-        self.tir = False
+from Move import *
 
 
 def get_next_move():
@@ -58,7 +48,8 @@ def Gameloop(window):
             display_message(window, "Press any key to continue", GameConfig.FONT20, GameConfig.windowW / 2,
                             GameConfig.windowH / 2 + 50, GameConfig.BLACK)
             quitting = True
-        next_move = get_next_move()
+        next_move = game_state.get_ia_command()
+        #next_move = get_next_move()
         game_state.advance_state(next_move)
         pygame.display.update()
     if playagain():

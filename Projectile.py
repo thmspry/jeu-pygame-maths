@@ -47,6 +47,7 @@ class Projectile(pygame.sprite.Sprite) :
     def fonction_carre(self, x):
         return 0.07*(x**2)+3*x
 
+
 class ProjectileEnemy(pygame.sprite.Sprite):
 
     def __init__(self, x, y, vitesse, direction):
@@ -61,7 +62,7 @@ class ProjectileEnemy(pygame.sprite.Sprite):
         window.blit(self.image, self.rect)
 
     def reflect(self, NV):
-        self.dir= self.dir.reflect(pygame.math.Vector2(NV))
+        self.dir = self.dir.reflect(pygame.math.Vector2(NV))
 
     def mouvement(self):
         self.pos += self.dir * self.vitesse

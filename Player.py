@@ -78,9 +78,6 @@ class Player(pygame.sprite.Sprite):
             if self.delay >= limit:
                 self.delay = 0
 
-    def shoot(self):
-        pass
-
     def on_ground(self):
         return self.rect.bottom == GameConfig.Y_GROUND
 
@@ -90,7 +87,13 @@ class Player(pygame.sprite.Sprite):
                 return True
 
     def touch_border(self):
-        return self.rect.right >= GameConfig.windowW or self.rect.left == 0 or self.rect.top <= 0
+        return self.touch_border_left() or self.touch_border_right()
+
+    def touch_border_left(self):
+        return self.rect.left <= 0
+
+    def touch_border_right(self):
+        return self.rect.right >= GameConfig.windowW
 
     def touch_enemy(self, enemy):
         return self.rect.colliderect(enemy.rect)
@@ -135,12 +138,6 @@ class Player(pygame.sprite.Sprite):
 
             #self.direction = Player.NONE
 
-        '''if self.touch_enemy(enemy):
-            if self.tmp == 10:
-                damage = random.randint(5,30)
-                self.life = self.life - damage
-                self.tmp = 0
-            self.tmp +=1'''
 
         if self.life < 0:
             self.life = 0
@@ -198,10 +195,6 @@ class Player(pygame.sprite.Sprite):
         if self.rect.x == 0:
             fy = GameConfig.FORCEJUMP
             self.direction = Player.UPR
-
-
-
-
         self.sprite_count += 1
         if self.sprite_count >= GameConfig.NB_FRAMES_PER_SPRITE_PLAYER * len(Player.IMAGES[self.direction]):
             self.sprite_count = 0
@@ -219,7 +212,6 @@ class Player(pygame.sprite.Sprite):
             self.vy = fy*GameConfig.DT
         else:
             self.vy = self.vy + GameConfig.GRAVITY*GameConfig.DT
-
 
         x, y = self.rect.topleft
         vy_max = (GameConfig.Y_GROUND-GameConfig.Player_H-y)/GameConfig.DT
