@@ -46,13 +46,13 @@ class GameConfig:
     # Colors Code (R, G, B)
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
-    RED_LIFE = (199, 50, 50)
-    GREY_BAR = (110, 110, 110)
-    YELLOW_GOLD_WIN = (230, 168, 0)
-    RED_DARK_LOSE = (156, 28, 23)
+    RED_LIFE = (199, 50, 50)  # Rouge pour la barre de vie
+    GREY_BAR = (110, 110, 110)  # Gris pour la fond de la barre de vie
+    YELLOW_GOLD_WIN = (230, 168, 0)  # Jaune pour le texte "Win"
+    RED_DARK_LOSE = (156, 28, 23)  # Rouge pour le texte "Lose"
 
     # Sprites
-    WALK_RIGHT_IMG = [
+    WALK_RIGHT_IMG = [  # Marcher vers la droite
         pygame.image.load('assets/images/sprites/walk/walk1.png'),
         pygame.image.load('assets/images/sprites/walk/walk2.png'),
         pygame.image.load('assets/images/sprites/walk/walk3.png'),
@@ -60,7 +60,7 @@ class GameConfig:
         pygame.image.load('assets/images/sprites/walk/walk5.png'),
         pygame.image.load('assets/images/sprites/walk/walk6.png')
     ]
-    WALK_LEFT_IMG = [
+    WALK_LEFT_IMG = [  # Marcher vers la gauche
         pygame.transform.flip(pygame.image.load('assets/images/sprites/walk/walk1.png'), True, False),
         pygame.transform.flip(pygame.image.load('assets/images/sprites/walk/walk2.png'), True, False),
         pygame.transform.flip(pygame.image.load('assets/images/sprites/walk/walk3.png'), True, False),
@@ -69,7 +69,7 @@ class GameConfig:
         pygame.transform.flip(pygame.image.load('assets/images/sprites/walk/walk6.png'), True, False)
     ]
 
-    PUNCH_RIGHT_IMG = [
+    PUNCH_RIGHT_IMG = [  # Coup de poing vers la droite
         pygame.image.load('assets/images/sprites/punch/punch1.png'),
         pygame.image.load('assets/images/sprites/punch/punch2.png'),
         pygame.image.load('assets/images/sprites/punch/punch3.png'),
@@ -77,7 +77,7 @@ class GameConfig:
         pygame.image.load('assets/images/sprites/punch/punch5.png')
     ]
 
-    PUNCH_LEFT_IMG = [
+    PUNCH_LEFT_IMG = [    # Coup de poing vers la gauche
         pygame.transform.flip(pygame.image.load('assets/images/sprites/punch/punch1.png'), True, False),
         pygame.transform.flip(pygame.image.load('assets/images/sprites/punch/punch2.png'), True, False),
         pygame.transform.flip(pygame.image.load('assets/images/sprites/punch/punch3.png'), True, False),
@@ -85,7 +85,7 @@ class GameConfig:
         pygame.transform.flip(pygame.image.load('assets/images/sprites/punch/punch5.png'), True, False)
     ]
 
-    PUNCH_FOOT_RIGHT_IMG = [
+    PUNCH_FOOT_RIGHT_IMG = [  # Coup de pied vers la droite
         pygame.image.load('assets/images/sprites/punch_foot/punch_foot1.png'),
         pygame.image.load('assets/images/sprites/punch_foot/punch_foot2.png'),
         pygame.image.load('assets/images/sprites/punch_foot/punch_foot3.png'),
@@ -93,7 +93,7 @@ class GameConfig:
         pygame.image.load('assets/images/sprites/punch_foot/punch_foot5.png')
     ]
 
-    PUNCH_FOOT_LEFT_IMG = [
+    PUNCH_FOOT_LEFT_IMG = [  # Coup de pied vers la gauche
         pygame.transform.flip(pygame.image.load('assets/images/sprites/punch_foot/punch_foot1.png'), True, False),
         pygame.transform.flip(pygame.image.load('assets/images/sprites/punch_foot/punch_foot2.png'), True, False),
         pygame.transform.flip(pygame.image.load('assets/images/sprites/punch_foot/punch_foot3.png'), True, False),
@@ -101,6 +101,7 @@ class GameConfig:
         pygame.transform.flip(pygame.image.load('assets/images/sprites/punch_foot/punch_foot5.png'), True, False)
     ]
 
+    # Initilisation des mask de chaque tableau de sprite
     WALK_RIGHT_MASK = []
     WALK_LEFT_MASK = []
     for im in WALK_RIGHT_IMG:

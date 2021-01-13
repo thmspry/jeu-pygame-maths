@@ -4,7 +4,7 @@ import pygame
 from config import *
 
 
-class Projectile(pygame.sprite.Sprite) :
+class Projectile(pygame.sprite.Sprite):
     def __init__(self, x, y, taille, direction):
         super().__init__()
         self.x = x
@@ -24,28 +24,24 @@ class Projectile(pygame.sprite.Sprite) :
 
     def mouvement(self, vitesse):
         if self.rebondD:
-            self.rect.x -= vitesse*self.direction
+            self.rect.x -= vitesse * self.direction
         else:
             self.rect.x += vitesse * self.direction
-        if self.lastY is not None and self.lastY > self.fonction_carre(self.pos):
+        if self.lastY is not None and self.lastY > self.fonction_carre(self.pos):  # Si on est sur la montée
             self.rect.y -= self.fonction_carre(self.pos)
         else:
-            self.rect.y += self.fonction_carre(self.pos)
-        self.lastY = self.fonction_carre(self.pos)
-        self.pos+=1
-        if self.rect.x >= GameConfig.windowW or self.rect.x <= 0:
-            self.rebondD = True
+            self.rect.y += self.fonction_carre(self.pos)                           # Si on est sur la descente
+        self.lastY = self.fonction_carre(self.pos)              # Utilisation de la fonction
+        self.pos += 1                                           # On avance la position en X
+        if self.rect.x >= GameConfig.windowW or self.rect.x <= 0:   # Si on touche le bord
+            self.rebondD = True                                     # il y a un donc un rebond
         self.delay += 1
         if self.delay == 3:
-            self.image = pygame.transform.rotate(self.image, -90)
+            self.image = pygame.transform.rotate(self.image, -90)  # On fait tourner la pierre sur elle meme
             self.delay = 0
-    '''def advance_state(self, next_move):
-        if next_move.attack :
-            self.vx = self.vx*GameConfig.DT
-            self.draw()
-'''
-    def fonction_carre(self, x):
-        return 0.07*(x**2)+3*x
+
+    def fonction_carre(self, x):        # Fonction modélisant la trajectoire de la parabole du lancer
+        return 0.07 * (x ** 2) + 3 * x
 
 
 class ProjectileEnemy(pygame.sprite.Sprite):
@@ -56,7 +52,7 @@ class ProjectileEnemy(pygame.sprite.Sprite):
         self.vitesse = vitesse
         self.dir = pygame.math.Vector2(direction).normalize()
         self.image = GameConfig.ROCK_IMG
-        self.rect = self.image.get_rect(center = (round(self.pos.x), round(self.pos.y)))
+        self.rect = self.image.get_rect(center=(round(self.pos.x), round(self.pos.y)))
 
     def draw(self, window):
         window.blit(self.image, self.rect)
@@ -64,7 +60,7 @@ class ProjectileEnemy(pygame.sprite.Sprite):
     def reflect(self, NV):
         self.dir = self.dir.reflect(pygame.math.Vector2(NV))
 
-    def mouvement(self):
+    def mouvement(self): # Pierre rebondisant a 90 sur tout l'écran
         self.pos += self.dir * self.vitesse
         self.rect.center = round(self.pos.x), round(self.pos.y)
         if self.rect.left <= 0:
@@ -73,5 +69,5 @@ class ProjectileEnemy(pygame.sprite.Sprite):
             self.reflect((-1, 0))
         if self.rect.top <= 0:
             self.reflect((0, 1))
-        if self.rect.bottom >= GameConfig.windowH-100:
-            self.reflect((0,-1))
+        if self.rect.bottom >= GameConfig.windowH - 100:
+            self.reflect((0, -1))

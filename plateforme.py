@@ -7,5 +7,5 @@ class Plateforme(pygame.sprite.Sprite):
         super().__init__()
         self.rect = rect
 
-    def afficher(self, surface):
+    def afficher(self, surface):        # Une plateforme est un rectangle vert
         pygame.draw.rect(surface, (0, 155, 0), self.rect)
